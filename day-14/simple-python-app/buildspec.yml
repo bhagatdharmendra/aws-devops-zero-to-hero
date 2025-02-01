@@ -22,6 +22,7 @@ phases:
       - TAG_NAME=$(echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/^tag\///')  # Extract Git tag (if triggered by tag)
       - IMAGE_TAG=${TAG_NAME:-latest}  # Use 'latest' if no tag is available
       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG" .
+      - echo $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG"
   post_build:
     commands:
