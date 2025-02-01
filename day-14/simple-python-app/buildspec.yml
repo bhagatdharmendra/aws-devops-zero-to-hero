@@ -24,7 +24,7 @@ phases:
       #- echo $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
       #- docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG"
       - docker tag "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG" "941377157113.dkr.ecr.ap-south-1.amazonaws.com/workspace/simple-python-flask-app:$IMAGE_TAG"
-      - aws ecr get-login-password --region ap-south-1 | docker login --username aws --password-stdin 941377157113.dkr.ecr.ap-south-1.amazonaws.com
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 941377157113.dkr.ecr.ap-south-1.amazonaws.com
       - docker push "941377157113.dkr.ecr.ap-south-1.amazonaws.com/workspace/simple-python-flask-app:$IMAGE_TAG"
   post_build:
     commands:
