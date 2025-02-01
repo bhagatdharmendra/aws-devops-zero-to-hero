@@ -12,15 +12,20 @@ phases:
   pre_build:
     commands:
       - echo "Installing dependencies..."
-      - pip install -r day-14/simple-python-app/requirements.txt
+     # - pip install -r day-14/simple-python-app/requirements.txt
   build:
     commands:
-      - echo "Running tests..."
-      - cd day-14/simple-python-app/
-      - echo "Building Docker image..."
-      - TAG_NAME=$(echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/^tag\///')  # Extract Git tag (if triggered by tag)
-      - IMAGE_TAG=${TAG_NAME:-latest}  # Use 'latest' if no tag is available
-      - echo  $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
+       - echo "Webhook Trigger: $CODEBUILD_WEBHOOK_TRIGGER"
+       - echo "Source Version: $CODEBUILD_SOURCE_VERSION"
+       - TAG_NAME=${CODEBUILD_SOURCE_VERSION#tags/}  # Removes "tags/" prefix if present
+       - IMAGE_TAG=${TAG_NAME:-latest}
+       - echo "Resolved Image Tag: $IMAGE_TAG"
+     # - echo "Running tests..."
+     # - cd day-14/simple-python-app/
+     # - echo "Building Docker image..."
+     # - TAG_NAME=$(echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/^tag\///')  # Extract Git tag (if triggered by tag)
+     # - IMAGE_TAG=${TAG_NAME:-latest}  # Use 'latest' if no tag is available
+     # - echo  $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
      # - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG" .
      # - echo $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
      # - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG"
