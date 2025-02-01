@@ -5,35 +5,28 @@ env:
     DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username1
     DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
     DOCKER_REGISTRY_URL: /myapp/docker-registry/url
-
 phases:
   install:
     runtime-versions:
       python: 3.11
-
   pre_build:
     commands:
       - echo "Installing dependencies..."
-      - pip install -r day-13/simple-python-app/requirements.txt
-      - echo "Logging into Docker registry..."
-      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-
+      - pip install -r day-14/simple-python-app/requirements.txt
   build:
     commands:
-      - echo "Webhook Trigger: $CODEBUILD_WEBHOOK_TRIGGER"
-      - echo "Source Version: $CODEBUILD_SOURCE_VERSION"
-      - TAG_NAME=$(echo "$CODEBUILD_SOURCE_VERSION" | sed 's|refs/tags/||')
-      - IMAGE_TAG=${TAG_NAME:-latest}
-      - echo "Resolved Image Tag: $IMAGE_TAG"
+      - echo "Running tests..."
+      - cd day-14/simple-python-app/
       - echo "Building Docker image..."
+      - echo  $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG" .
+      - echo $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG"
-
   post_build:
     commands:
       - echo "Build completed successfully!"
-
 artifacts:
   files:
     - '**/*'
-  base-directory: day-13/simple-python-app
+  base-directory: ../simple-python-app
+
