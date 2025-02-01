@@ -23,6 +23,8 @@ phases:
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
       - echo $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG"
+      - docker tag "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG" "941377157113.dkr.ecr.ap-south-1.amazonaws.com/workspace/simple-python-flask-app:$IMAGE_TAG"
+      - docker push "941377157113.dkr.ecr.ap-south-1.amazonaws.com/workspace/simple-python-flask-app:$IMAGE_TAG"
   post_build:
     commands:
       - echo "Build completed successfully!"
