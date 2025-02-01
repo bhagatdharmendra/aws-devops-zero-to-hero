@@ -26,7 +26,7 @@ phases:
       - docker build -t workspace .
       - docker tag workspace:latest 941377157113.dkr.ecr.ap-south-1.amazonaws.com/workspace:$IMAGE_TAG
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 941377157113.dkr.ecr.ap-south-1.amazonaws.com
-      - docker push 941377157113.dkr.ecr.ap-south-1.amazonaws.com/workspace:$IMAGE_TAG"
+      - docker push 941377157113.dkr.ecr.ap-south-1.amazonaws.com/workspace:$IMAGE_TAG
   post_build:
     commands:
       - echo "Build completed successfully!"
