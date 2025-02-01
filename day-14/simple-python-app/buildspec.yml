@@ -1,7 +1,7 @@
 version: 0.2
 
 env:
-
+  IMAGE_TAG: v.1.0.1
   parameter-store:
     DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username1
     DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
@@ -19,8 +19,8 @@ phases:
       - echo "Running tests..."
       - cd day-14/simple-python-app/
       - echo "Building Docker image..."
-      - TAG_NAME=$(echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/^tag\///')  # Extract Git tag (if triggered by tag)
-      - IMAGE_TAG=${TAG_NAME:-latest}  # Use 'latest' if no tag is available
+      #- TAG_NAME=$(echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/^tag\///')  # Extract Git tag (if triggered by tag)
+      #- IMAGE_TAG=${TAG_NAME:-latest}  # Use 'latest' if no tag is available
       - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG" .
       - echo $DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG
       - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/simple-python-flask-app:$IMAGE_TAG"
