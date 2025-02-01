@@ -1,7 +1,6 @@
 version: 0.2
 
 env:
-  IMAGE_TAG: v.1.0.1
   parameter-store:
     DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username1
     DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
